@@ -49,3 +49,18 @@ self.object_list = None
         for object in object_hit_list:
             self.player_sprite.remove_from_sprite_lists()
             self.player_restart()
+
+
+             #spring 과 player가 충돌시.
+        spring_hit_list = arcade.check_for_collision_with_list(self.player_sprite, self.spring_list)
+        
+             # 스프링에 닿았을 경우
+        if self.player_sprite.center_y <= -128:
+            self.player_sprite.remove_from_sprite_lists()
+            self.player_restart()
+            
+            #스프링에 닿았을 경우 캐릭터가 점프를 2배높이
+    def spring_act(self):
+        if self.physics_engine.can_jump():
+            self.player_sprite.change_y = player_jump_speed * 2
+            self.physics_engine.increment_jump_counter()
