@@ -1,4 +1,11 @@
-    def spring_line(self, start, end, height, img):
+def __init__(self):
+    self.coin_list = None
+    self.player_list = None
+        self.object_list = None
+        self.spring_list = None
+        
+        
+def spring_line(self, start, end, height, img):
         for x in range(start, end, 32):
             spring = arcade.Sprite(img, char_scaling)
             spring.center_x = x
@@ -44,6 +51,11 @@
         # spring 과 player가 충돌시.
         spring_hit_list = arcade.check_for_collision_with_list(self.player_sprite, self.spring_list)
         
+# player스프라이트 삭제후 재생성
+        for object_f in object_hit_list:
+            self.player_sprite.remove_from_sprite_lists()
+            self.player_restart()
+            
  # 스프링에 닿았을 경우
         for spring in spring_hit_list:
             self.spring_act()        
