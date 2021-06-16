@@ -1,0 +1,49 @@
+    def spring_line(self, start, end, height, img):
+        for x in range(start, end, 32):
+            spring = arcade.Sprite(img, char_scaling)
+            spring.center_x = x
+            spring.center_y = height
+            self.spring_list.append(spring)
+
+    # 스프링에 닿았을 경우 캐릭터가 점프를 2배높이
+    def spring_act(self):
+        if self.physics_engine.can_jump():
+            self.player_sprite.change_y = player_jump_speed * 2
+            self.physics_engine.increment_jump_counter()
+            
+ # 임시 장애물 나타내기 - 가시, 레이저, 레이저 박스
+    def object_line(self, start, end, height, img):
+        for x in range(start, end, 32):
+            object_f = arcade.Sprite(img, char_scaling)
+            object_f.center_x = x
+            object_f.center_y = height
+            self.object_list.append(object_f)
+
+    # 임시 코인 나타내기
+    def coin_line(self, start, end, height, img):
+        for u in range(start, end, 32):
+            coin = arcade.Sprite(img, char_scaling)
+            coin.center_x = u
+            coin.center_y = height
+            self.coin_list.append(coin)
+
+ # player 스프라이트 처음위치에서 재시작, 코인도 재생성 - 현재 코인 재생성 안됨.
+    def player_restart(self):
+        # 전체 스프라이트 제거 후 map read 필요.
+        self.player_list = arcade.SpriteList()
+        self.player_sprite.center_x = self.save_char_x
+        self.player_sprite.center_y = self.save_char_y
+        self.player_list.append(self.player_sprite)
+        
+ # See if we hit any coins
+        coin_hit_list = arcade.check_for_collision_with_list(self.player_sprite, self.coin_list)
+
+        # object랑 player랑 충돌 시
+        object_hit_list = arcade.check_for_collision_with_list(self.player_sprite, self.object_list)
+
+        # spring 과 player가 충돌시.
+        spring_hit_list = arcade.check_for_collision_with_list(self.player_sprite, self.spring_list)
+        
+ # 스프링에 닿았을 경우
+        for spring in spring_hit_list:
+            self.spring_act()        
