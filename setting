@@ -38,3 +38,18 @@ class SettingView(arcade.View):
 
         arcade.draw_text("JUMPER", screen_w / 2, screen_h / 2 + 32 * 8, arcade.color.WHITE, font_size=30,
                          anchor_x="center")
+
+    def on_mouse_motion(self, x, y, dx, dy):
+        self.mouse_sprite.center_x = x
+        self.mouse_sprite.center_y = y
+
+    def on_mouse_press(self, _x, _y, button, _modifiers):
+
+        menu_hit_list = arcade.check_for_collision_with_list(self.mouse_sprite, self.menu_list)
+
+        for menu_index in menu_hit_list:
+            if button == arcade.MOUSE_BUTTON_LEFT:
+                if menu_index == self.menu_list[0]:
+                    main_view = Menu.MainView()
+                    main_view.setup()
+                    self.window.show_view(main_view)
